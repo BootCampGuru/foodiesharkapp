@@ -6,12 +6,21 @@ const searchRequest = {
   price: '1,2,3,4',
   limit: 50,
   sort_by: "best_match",
-  open_now: true
+  open_now: false
 };
 
 // Routes
 // =============================================================
 module.exports = function(app,client) {
+
+ 
+  app.get("/api/searchreviews/:id",function(req,res){
+
+    client.reviews(req.params.id).then(response => {
+      console.log(response.jsonBody);
+        return res.json(response.jsonBody);
+    });
+  });
 
   app.get("/api/searchdetails/:id",function(req,res){
 

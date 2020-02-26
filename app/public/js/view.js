@@ -1,5 +1,31 @@
 var restaurantdata = [];
 
+//find reviews
+function searchReviews(id, cb)
+{
+  $.get("/api/searchreviews/" + id , function(data)
+  {
+    //console.log(data);
+    $("#yelpreviews").empty();
+    $("#yelpreviews").append("<div>");
+    $("#yelpreviews").append("<h3 style='color:brown;'>Top 3 Reviews</h3>");
+    for(var j=0; j < data.reviews.length; j++)
+    {
+      $("#yelpreviews").append("<span style='color: blue' align='center'><i>" + data.reviews[j].user.name + " </i></span>");
+      $("#yelpreviews").append("<br/>");
+      $("#yelpreviews").append("<span align='center'>Rating: " + data.reviews[j].rating + " </span>");
+      $("#yelpreviews").append("<br/>");
+      $("#yelpreviews").append("<span align='center'>" + data.reviews[j].text + " </span>");
+      $("#yelpreviews").append("<br/>");
+      $("#yelpreviews").append("<span align='center'>" + data.reviews[j].time_created + " </span>");
+      $("#yelpreviews").append("<hr/>");
+    }
+
+    $("#yelpreviews").append("</div>");
+    cb(data);
+  });
+
+}
 
 //Search Parameters
 function searchyelp(searchterms, cb)
@@ -29,8 +55,8 @@ $.get("/api/search/" + searchterms.latitude + "/" + searchterms.longitude + "/" 
     $("#list").append("Price:" + data[i].price);
     $("#list").append("<br/>");
     
-    $("#list").append("<br/>");
-    $("#list").append(data[i].location.address1);
+    //$("#list").append("<br/>");
+   /* $("#list").append(data[i].location.address1);
     $("#list").append("<br/>");
     if(data[i].location.address2 != "")
     {
@@ -39,7 +65,7 @@ $.get("/api/search/" + searchterms.latitude + "/" + searchterms.longitude + "/" 
     }
     $("#list").append(data[i].location.city);
     $("#list").append("<br/>");
-    $("#list").append(data[i].location.state + ", " + data[i].location.zip_code);
+    $("#list").append(data[i].location.state + ", " + data[i].location.zip_code); */
     $("#list").append("<br/>");
     $("#list").append("<a href='tel:" + data[i].display_phone + "'>" + "Phone: " + data[i].display_phone + "</a>");
  
@@ -69,7 +95,7 @@ function searchDetails(id, cb)
 {
   $.get("/api/searchdetails/" + id , function(data)
   {
-    console.log(data);
+    //console.log(data);
     $("#yelpdetails").empty();
     $("#yelpdetails").append("<div style='background-color:black; corner-radius:5; border-width:1px; padding:5px;'");
     $("#yelpdetails").append("<h2 style='color:brown'><strong>" + data.name + "</strong></h2>");

@@ -15,17 +15,17 @@
     
   <div class="container">
       <div class="header">
-        <img class="thumbnail" height="100" id="shark" src="/images/shark.jpg" />
+        <img class="thumbnail" height="80" id="shark" src="/images/shark.jpg" />
           <h2 style="font-style: italic; font-family: 'Courier New', Courier, monospace; color: yellowgreen;">Foodie Shark - Your city companion</h2>   
         </div>
 
-        <div style="margin-top:120px;" class="jumbotron">
+        <div style="margin-top:100px;" class="jumbotron">
       
       <div id="example3"
         style="background-color: bisque; color: black; text-align:center; font-family:'Courier New', Courier, monospace">
         <div>
-          <label for="customRange1">Distance[500 Meters - 2000 Meters]</label>
-          <input type="range" class="custom-range" value="500" min="500" max="2000" id="foodranger">
+          <label for="customRange1">Distance[500 Meters - 3000 Meters]</label>
+          <input type="range" class="custom-range" value="500" min="500" max="3000" id="foodranger">
           <label id="rangevalue">500 Meters</label>
          
 
@@ -46,30 +46,34 @@
             <label>
               <input value="bar" id="bar" type="radio" name="optradio">Bars
             </label>
+            <label>
+              <input value="coffee" id="coffee" type="radio" name="optradio">Coffee
+            </label>
          
-     
         </div>
 
       </div>
-      <hr />
+      <hr/>
       <div class="col-sm-12 row">
-          <div id="yelpdetails" class="example3"></div>
-      
+          <div id="yelpdetails" class="col-sm-9 example3"></div>
+          <div class="col-sm-3" id="yelpreviews"></div>
+          </div>
+          <div style="margin-left: 5px;" class="col-sm-12 row">
+            <div id="floating-panel">
+                <b>Mode of Travel: </b>
+                <select id="mode">
+                  <option value="DRIVING">Driving</option>
+                  <option value="WALKING">Walking</option>
+                  <option value="BICYCLING">Bicycling</option>
+                  <option value="TRANSIT">Transit</option>
+                </select>
+                </div>
+          <div id="map" class="col-sm-12 example2"></div>
+         
         </div>
-        <br />
-      <div class="col-sm-12 row">
-          <div id="floating-panel">
-              <b>Mode of Travel: </b>
-              <select id="mode">
-                <option value="DRIVING">Driving</option>
-                <option value="WALKING">Walking</option>
-                <option value="BICYCLING">Bicycling</option>
-                <option value="TRANSIT">Transit</option>
-              </select>
-              </div>
-        <div id="map" class="col-sm-12 example2"></div>
-       
-      </div>
+        </div>
+    
+    
       <div style="text-align: center; margin: 5px;" id="list"  class="card col-sm-12 row example2 center">
        
       </div>
@@ -77,20 +81,17 @@
     </div>
     <footer><p style="text-align: center;">FoodieShark - All rights reserved &copy;
         <!-- hitwebcounter Code START -->
-<!-- hitwebcounter Code START -->
 <a href="https://www.hitwebcounter.com" target="_blank">
-  <img src="https://hitwebcounter.com/counter/counter.php?page=7200823&style=0006&nbdigits=9&type=page&initCount=0" title="User Stats" Alt="webcounterwebsite"   border="0" >
+  <img src="https://hitwebcounter.com/counter/counter.php?page=7200823&style=0006&nbdigits=9&type=page&initCount=0" title="User Stats" Alt="webcounterwebsite"  border="0" >
   </a>             
     </p>
     </footer>
-  
- 
   </div>
 
   <script>
     function showPosition(position)
     {
-      console.log(position.coords.latitude);
+      //console.log(position.coords.latitude);
     }
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition(showPosition);
@@ -117,6 +118,7 @@
     };
 
     $("#yelpdetails").hide();
+    $("#yelpreviews").hide();
 
     var pos = {}
     var map, infoWindow;
@@ -258,8 +260,14 @@
      document.getElementById("bestmatch").addEventListener("click", rangerFunction);
      document.getElementById("distance").addEventListener("click", rangerFunction);
      document.getElementById("review").addEventListener("click", rangerFunction);
-
+     document.getElementById("coffee").addEventListener("click", rangerFunction);
     $('body').on('click', '.themeChanger', function() {
+
+      var reviews = searchReviews($(this).val(), function(data){
+
+        //console.log(data);
+
+      });
     
       var data = searchDetails($(this).val(), function (data) {
   
@@ -267,6 +275,7 @@
         destination.longitude= data.coordinates.longitude;
 
         $("#yelpdetails").show();
+        $("#yelpreviews").show();
         window.scrollTo(0, 0); 
 
 
@@ -294,6 +303,7 @@
 
     function rangerFunction() {
       $("#yelpdetails").hide();
+      $("#yelpreviews").hide();
       searchRequest.radius = document.getElementById("foodranger").value;
       var miles = parseInt(searchRequest.radius) * 0.000621;
       document.getElementById("rangevalue").innerHTML = miles.toFixed(2) + " Miles(s)";
@@ -317,6 +327,10 @@
 
       if (document.getElementById("bar").checked) {
         searchRequest.term = document.getElementById("bar").value;
+      }
+
+      if (document.getElementById("coffee").checked) {
+        searchRequest.term = document.getElementById("coffee").value;
       }
 
       var data = searchyelp(searchRequest, function (data) {
