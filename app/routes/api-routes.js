@@ -17,7 +17,7 @@ module.exports = function(app,client) {
   app.get("/api/searchreviews/:id",function(req,res){
 
     client.reviews(req.params.id).then(response => {
-      console.log(response.jsonBody);
+      //console.log(response.jsonBody);
         return res.json(response.jsonBody);
     });
   });
@@ -40,7 +40,7 @@ module.exports = function(app,client) {
     searchRequest.price = req.params.price;
     searchRequest.sort_by = req.params.sort_by;
 
-    console.log(searchRequest);
+    //console.log(searchRequest);
 
     client.search(searchRequest).then(response => {
       //console.log(response.jsonBody.businesses);

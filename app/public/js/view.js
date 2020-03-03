@@ -13,6 +13,8 @@ function searchReviews(id, cb)
     {
       $("#yelpreviews").append("<span style='color: blue' align='center'><i>" + data.reviews[j].user.name + " </i></span>");
       $("#yelpreviews").append("<br/>");
+      $("#yelpreviews").append("<img class='thumbnail' src='" + data.reviews[j].user.image_url + "' height='75' align='center'>" + " </img>");
+      $("#yelpreviews").append("<br/>");
       $("#yelpreviews").append("<span align='center'>Rating: " + data.reviews[j].rating + " </span>");
       $("#yelpreviews").append("<br/>");
       $("#yelpreviews").append("<span align='center'>" + data.reviews[j].text + " </span>");
@@ -32,6 +34,7 @@ function searchyelp(searchterms, cb)
 {
 $.get("/api/search/" + searchterms.latitude + "/" + searchterms.longitude + "/" +  searchterms.term + "/" + searchterms.radius + "/" + searchterms.price + "/" + searchterms.sort_by , function(data)
 {
+  //console.log(data);
   $("#list").empty();
   $("#list").append("<div>");
   $("#list").append("<strong style='background-color: brown; color: white;'>Found " + data.length + " open " + searchterms.term + "(s)</strong>");
@@ -70,7 +73,7 @@ $.get("/api/search/" + searchterms.latitude + "/" + searchterms.longitude + "/" 
     $("#list").append("<a href='tel:" + data[i].display_phone + "'>" + "Phone: " + data[i].display_phone + "</a>");
  
 
-    if(data[i].is_closed == "true")
+    if(data[i].is_closed == true)
     {
       $("#list").append("<span style='color:red'>Closed</span>");
     }

@@ -2,14 +2,18 @@
 <html lang="en-us">
 
 <head>
+  
   <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <title>Foodie Shark</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="/css/style.css" />
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
+  <script data-ad-client="ca-pub-6407790357568202" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 <body>
     
@@ -25,7 +29,7 @@
         style="background-color: bisque; color: black; text-align:center; font-family:'Courier New', Courier, monospace">
         <div>
           <label for="customRange1">Distance[500 Meters - 3000 Meters]</label>
-          <input type="range" class="custom-range" value="500" min="500" max="3000" id="foodranger">
+          <input type="range" class="slider custom-range" value="500" min="500" max="3000" id="foodranger">
           <label id="rangevalue">500 Meters</label>
          
 
@@ -48,6 +52,9 @@
             </label>
             <label>
               <input value="coffee" id="coffee" type="radio" name="optradio">Coffee
+            </label>
+            <label>
+              <input value="dessert" id="dessert" type="radio" name="optradio">Dessert
             </label>
          
         </div>
@@ -261,6 +268,7 @@
      document.getElementById("distance").addEventListener("click", rangerFunction);
      document.getElementById("review").addEventListener("click", rangerFunction);
      document.getElementById("coffee").addEventListener("click", rangerFunction);
+     document.getElementById("dessert").addEventListener("click", rangerFunction);
     $('body').on('click', '.themeChanger', function() {
 
       var reviews = searchReviews($(this).val(), function(data){
@@ -331,6 +339,10 @@
 
       if (document.getElementById("coffee").checked) {
         searchRequest.term = document.getElementById("coffee").value;
+      }
+
+      if (document.getElementById("dessert").checked) {
+        searchRequest.term = document.getElementById("dessert").value;
       }
 
       var data = searchyelp(searchRequest, function (data) {
